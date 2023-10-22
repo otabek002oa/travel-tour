@@ -10,7 +10,7 @@ export class TravelService {
   constructor(
     @InjectModel(Travel) private readonly travelRepo: typeof Travel,
   ) {}
-
+    
   async search(searchDto: SearchDto) {
     try {
       let travel: any;
