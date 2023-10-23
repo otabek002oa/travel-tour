@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { initializeFirebaseApp } from './config/firebase.config';
+
 initializeFirebaseApp();
 
 async function runApp() {
