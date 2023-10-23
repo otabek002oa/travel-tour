@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { resolve } from 'path';
 import { TravelModule } from './travel/travel.module';
+import { HomeImageModule } from './home-image/home-image.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TravelModule } from './travel/travel.module';
       rootPath: resolve(__dirname, 'static'),
     }),
     TravelModule,
+    HomeImageModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

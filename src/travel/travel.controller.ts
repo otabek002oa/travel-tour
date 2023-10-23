@@ -6,16 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { TravelService } from './travel.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TravelDto } from './dto/travel.dto';
 import { SearchDto } from './dto/search.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('travel')
 @Controller('travel')
 export class TravelController {
-  constructor(private readonly travelService: TravelService) {}
+  constructor(private readonly travelService: TravelService) { }
 
   @ApiOperation({ summary: 'search travel packages' })
   @Get('search')
@@ -25,8 +28,12 @@ export class TravelController {
 
   @ApiOperation({ summary: 'add travel package to list' })
   @Post()
-  create(@Body() travelDto: TravelDto) {
-    return this.travelService.create(travelDto);
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() travelDto: TravelDto,
+    @UploadedFile() file: Express.Multer.File,
+    ) {
+    return this.travelService.create(travelDto, file);
   }
 
   @ApiOperation({ summary: 'get all travel packages' })

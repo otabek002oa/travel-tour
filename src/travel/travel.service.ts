@@ -4,13 +4,31 @@ import { Travel } from './model/app.model';
 import { TravelDto } from './dto/travel.dto';
 import { SearchDto } from './dto/search.dto';
 import { Op } from 'sequelize';
+import { v4 } from 'uuid';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 @Injectable()
 export class TravelService {
   constructor(
     @InjectModel(Travel) private readonly travelRepo: typeof Travel,
   ) {}
-    
+
+  public async upload(
+    file: Express.Multer.File,
+    path: string,
+    fileName: string,
+  ) {
+    try {
+      const storage = getStorage();
+      const fileExtension = file.originalname.split('.').pop();
+      const fileRef = ref(storage, `${path}/${fileName}.${fileExtension}`);
+      const uploaded = await uploadBytes(fileRef, file.buffer);
+      return uploaded.metadata.fullPath;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async search(searchDto: SearchDto) {
     try {
       let travel: any;
@@ -40,9 +58,11 @@ export class TravelService {
     }
   }
 
-  async create(travelDto: TravelDto) {
+  async create(travelDto: TravelDto, file: Express.Multer.File) {
     try {
-      const travel = await this.travelRepo.create(travelDto);
+      const exs = v4();
+      const image = await this.upload(file, 'image', exs);
+      const travel = await this.travelRepo.create({ ...travelDto, image });
       return travel;
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -52,6 +72,7 @@ export class TravelService {
   async getAll() {
     try {
       const travels = await this.travelRepo.findAll();
+      console.log('salom');
       return travels;
     } catch (error) {
       throw new BadRequestException(error.message);

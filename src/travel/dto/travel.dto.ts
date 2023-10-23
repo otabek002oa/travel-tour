@@ -60,22 +60,4 @@ export class TravelDto {
     example: 'special',
   })
   type: string;
-
-  @ApiProperty({
-    type: 'string',
-    example: 'klj23230-23lkjh32',
-  })
-  home_image: string;
-
-  @ApiProperty({
-    type: 'string',
-    example: 'asdfklj2000-234bj4h',
-  })
-  standard_image: string;
-
-  @ApiProperty({
-    type: 'string',
-    example: 'asdfjk23jk0023-23jdfsk',
-  })
-  small_image: string;
 }

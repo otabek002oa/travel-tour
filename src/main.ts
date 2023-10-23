@@ -2,8 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { initializeFirebaseApp } from './config/firebase.config';
+initializeFirebaseApp();
 
-async function bootstrap() {
+async function runApp() {
   try {
     const app = await NestFactory.create(AppModule);
     const PORT = process.env.PORT || 3000;
@@ -25,4 +27,4 @@ async function bootstrap() {
     throw new BadRequestException(error.message);
   }
 }
-bootstrap();
+runApp();

@@ -12,9 +12,7 @@ interface TravelAttributes {
   days: number;
   price: number;
   type: string;
-  home_image: string;
-  standard_image: string;
-  small_image: string;
+  image: string;
 }
 
 @Table({ tableName: 'travel' })
@@ -79,15 +77,5 @@ export class Travel extends Model<Travel, TravelAttributes> {
   @Column({
     type: DataType.STRING,
   })
-  home_image: string;
-
-  @Column({
-    type: DataType.STRING,
-  })
-  standard_image: string;
-
-  @Column({
-    type: DataType.STRING,
-  })
-  small_image: string;
+  image: string;
 }
